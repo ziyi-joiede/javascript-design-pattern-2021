@@ -1,17 +1,5 @@
-// class Person {
-// 	constructor(name) {
-// 		this.name = name
-// 	}
-
-// 	getName() {
-// 		return this.name
-// 	}
-// }
-
-// let p = new Person('双越老师')
-// alert(p.getName())
-
-class Person {
+// 父类
+class People {
 	constructor(name, age) {
 		this.name = name
 		this.age = age
@@ -26,10 +14,25 @@ class Person {
 	}
 }
 
-let zhang = new Person('zhang', 20)
-zhang.eat()
-zhang.speak()
+// 子类 继承父类
+class Student extends People {
+	constructor(name, age, number) {
+		super(name, age)
+		this.number = number
+	}
 
-let wang = new Person('wang', 21)
-wang.eat()
-wang.speak()
+	study() {
+		alert(`${this.name} study`)
+	}
+}
+
+// 实例
+let xioaming = new Student('xiaoming', 10, 'A1')
+xioaming.study()
+alert(xioaming.number)
+xioaming.eat()
+
+// 实例
+let xiaohong = new Student('xiaohong', 11, 'A2')
+xiaohong.speak()
+xiaohong.study()
