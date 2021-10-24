@@ -19,6 +19,7 @@ module.exports = {
 			template: './index.html'
 		})
 	],
+	// devtool: 'eval',
 	devServer: {
 		static: {
 			directory: path.join(__dirname, './release/'), // 根目录
