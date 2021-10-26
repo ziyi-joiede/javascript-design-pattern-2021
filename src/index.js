@@ -39,33 +39,112 @@
 // trip.start()
 // trip.end()
 
-class Product {
-	constructor(name) {
-		this.name = name
+// class Product {
+// 	constructor(name) {
+// 		this.name = name
+// 	}
+
+// 	init() {
+// 		alert('init')
+// 	}
+
+// 	fn1() {
+// 		alert('fn1')
+// 	}
+
+// 	fn2() {
+// 		alert('fn2')
+// 	}
+// }
+
+// class Creator {
+// 	create(name) {
+// 		return new Product(name)
+// 	}
+// }
+
+// // 测试
+// let creator = new Creator()
+// let p = creator.create('p1')
+
+// p.init()
+// p.fn1()
+
+
+// class SingleObject {
+// 	login() {
+// 		console.log('login...')
+// 	}
+// }
+
+// SingleObject.getInstance = (function(){
+// 	let instance;
+// 	return function() {
+// 		if(!instance) {
+// 			instance = new SingleObject()
+// 		}
+// 		return instance
+// 	}
+// })()
+
+// let obj1 = SingleObject.getInstance()
+// obj1.login()
+
+// let obj2 = SingleObject.getInstance()
+// obj2.login()
+
+// console.log(
+// 	'obj1 === obj2', obj1 === obj2
+// );
+
+// console.log('--- 分割线 ---');
+
+// let obj3 = new SingleObject() // 无法完全控制
+
+// console.log(
+// 	'obj1 === obj3', obj1 === obj3
+// )
+
+// 登录框
+class LoginForm {
+	constructor() {
+		this.state = 'hide'
 	}
 
-	init() {
-		alert('init')
+	show() {
+		if(this.state === 'show') {
+			alert('已经显示')
+			return
+		}
+
+		this.state = 'show'
+		console.log('登录框显示成功!')
 	}
 
-	fn1() {
-		alert('fn1')
-	}
-
-	fn2() {
-		alert('fn2')
+	hide() {
+		if(this.state === 'hide') {
+			alert('已经隐藏')
+			return
+		}
+		this.state = 'hide'
+		console.log('登录框隐藏成功!')
 	}
 }
 
-class Creator {
-	create(name) {
-		return new Product(name)
+LoginForm.getInstance = (function() {
+	let instance
+	return function() {
+		if(!instance) {
+			instance = new LoginForm()
+		}
+
+		return instance
 	}
-}
+})()
 
 // 测试
-let creator = new Creator()
-let p = creator.create('p1')
+let login1 = LoginForm.getInstance()
+login1.show()
 
-p.init()
-p.fn1()
+let login2 = LoginForm.getInstance()
+login2.show()
