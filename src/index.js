@@ -106,45 +106,85 @@
 // )
 
 // 登录框
-class LoginForm {
-	constructor() {
-		this.state = 'hide'
-	}
+// class LoginForm {
+// 	constructor() {
+// 		this.state = 'hide'
+// 	}
 
-	show() {
-		if(this.state === 'show') {
-			alert('已经显示')
-			return
-		}
+// 	show() {
+// 		if(this.state === 'show') {
+// 			alert('已经显示')
+// 			return
+// 		}
 
-		this.state = 'show'
-		console.log('登录框显示成功!')
-	}
+// 		this.state = 'show'
+// 		console.log('登录框显示成功!')
+// 	}
 
-	hide() {
-		if(this.state === 'hide') {
-			alert('已经隐藏')
-			return
-		}
-		this.state = 'hide'
-		console.log('登录框隐藏成功!')
+// 	hide() {
+// 		if(this.state === 'hide') {
+// 			alert('已经隐藏')
+// 			return
+// 		}
+// 		this.state = 'hide'
+// 		console.log('登录框隐藏成功!')
+// 	}
+// }
+
+// LoginForm.getInstance = (function() {
+// 	let instance
+// 	return function() {
+// 		if(!instance) {
+// 			instance = new LoginForm()
+// 		}
+
+// 		return instance
+// 	}
+// })()
+
+// // 测试
+// let login1 = LoginForm.getInstance()
+// login1.show()
+
+// let login2 = LoginForm.getInstance()
+// login2.show()
+
+// 装饰器
+
+class Circle {
+	draw() {
+		console.log('画一个圆形')
 	}
 }
 
-LoginForm.getInstance = (function() {
-	let instance
-	return function() {
-		if(!instance) {
-			instance = new LoginForm()
-		}
-
-		return instance
+class Decorator {
+	constructor(circle) {
+		this.circle = circle
 	}
-})()
+	
+	draw() {
+		this.circle.draw()
+		this.setRedBorder(this.circle)
+	}
 
-// 测试
-let login1 = LoginForm.getInstance()
-login1.show()
+	setRedBorder(circle) {
+		console.log('设置红色边框')
+	}
+}
 
-let login2 = LoginForm.getInstance()
-login2.show()
+// 测试代码
+let circle = new Circle()
+circle.draw()
+
+console.log('---- 分割线 ----')
+
+let dec = new Decorator(circle)
+dec.draw()
+
+@testDec
+class Demo {}
+
+function testDec(target) {
+	target.isDec = true
+}
+alert(Demo.isDec)
