@@ -151,40 +151,87 @@
 
 // 装饰器
 
-class Circle {
-	draw() {
-		console.log('画一个圆形')
-	}
-}
+// class Circle {
+// 	draw() {
+// 		console.log('画一个圆形')
+// 	}
+// }
 
-class Decorator {
-	constructor(circle) {
-		this.circle = circle
-	}
+// class Decorator {
+// 	constructor(circle) {
+// 		this.circle = circle
+// 	}
 	
-	draw() {
-		this.circle.draw()
-		this.setRedBorder(this.circle)
-	}
+// 	draw() {
+// 		this.circle.draw()
+// 		this.setRedBorder(this.circle)
+// 	}
 
-	setRedBorder(circle) {
-		console.log('设置红色边框')
-	}
+// 	setRedBorder(circle) {
+// 		console.log('设置红色边框')
+// 	}
+// }
+
+// // 测试代码
+// let circle = new Circle()
+// circle.draw()
+
+// console.log('---- 分割线 ----')
+
+// let dec = new Decorator(circle)
+// dec.draw()
+
+// @testDec
+// class Demo {}
+
+// function testDec(target) {
+// 	target.isDec = true
+// }
+// alert(Demo.isDec)
+
+
+// 代理模式
+// ES6 Proxy
+
+// 明星
+// 明星
+let star = {
+	name: '张 xx',
+	age: 25,
+	phone: 'star: 13900001111'
 }
 
-// 测试代码
-let circle = new Circle()
-circle.draw()
+// 经纪人
+let agent = new Proxy(star, {
+	get(target, key) {
+		if(key === 'phone') {
+			// 返回经纪人自己的电话
+			return 'agent: 16899997777'
+		}
 
-console.log('---- 分割线 ----')
+		// 明星不报价, 经纪人报价
+		if(key === 'price') {
+			return 120000
+		}
 
-let dec = new Decorator(circle)
-dec.draw()
+		return target[key]
+	},
+	set(target, key, val) {
+		if(key === 'customPrice') {
+			if( val < 10000) {
+				// 最低 10w
+				throw new Error('价格太低')
+			} else {
+				target[key] = val
+				return true
+			}
+		}
+	}
+})
 
-@testDec
-class Demo {}
+console.log(agent.name)
+console.log(agent.age)
+console.log(agent.phone)
+console.log(agent.price)
 
-function testDec(target) {
-	target.isDec = true
-}
-alert(Demo.isDec)
+agent.customPrice = 900000

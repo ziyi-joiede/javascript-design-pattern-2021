@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="div1">
+		<a href="#">a1</a>
+		<a href="#">a2</a>
+		<a href="#">a3</a>
+		<a href="#">a4</a>
+		<a href="#">a5</a>
+	</div>
+	<script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.js"></script>
+	<script>
+		// let div1 = document.getElementById('div1')
+
+		// div1.addEventListener('click', e => {
+		// 	let target = e.target
+		// 	if(target.nodeName === 'A') {
+		// 		alert(target.innerHTML)
+		// 	}
+		// })
+
+		$('#div1').click(function() {
+			// this 符合期望
+			$(this).addClass('red')
+		})
+		$('#div1').click(function() {
+			setTimeout(function() {
+				// this 不符合期望
+				$(this).addClass('red')
+			}, 1000)
+		});
+
+		// 可以用如下方式解决
+		$('#div1').click(function() {
+			let _this = this
+			setTimeout(function() {
+				// this 符合期望
+				$(_this).addClass('red')
+			}, 1000)
+		});
+
+		// 推荐使用 $.proxy 解决, 可以少一个变量
+		$('#div1').click(function() {
+			setTimeout($.proxy(function() {
+				// this 符合期望
+				$(this).addClass('red')
+			}, this), 1000)
+		});
+	</script>
+</body>
+</html>
