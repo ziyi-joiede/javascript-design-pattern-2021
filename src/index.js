@@ -195,43 +195,94 @@
 
 // 明星
 // 明星
-let star = {
-	name: '张 xx',
-	age: 25,
-	phone: 'star: 13900001111'
+// let star = {
+// 	name: '张 xx',
+// 	age: 25,
+// 	phone: 'star: 13900001111'
+// }
+
+// // 经纪人
+// let agent = new Proxy(star, {
+// 	get(target, key) {
+// 		if(key === 'phone') {
+// 			// 返回经纪人自己的电话
+// 			return 'agent: 16899997777'
+// 		}
+
+// 		// 明星不报价, 经纪人报价
+// 		if(key === 'price') {
+// 			return 120000
+// 		}
+
+// 		return target[key]
+// 	},
+// 	set(target, key, val) {
+// 		if(key === 'customPrice') {
+// 			if( val < 10000) {
+// 				// 最低 10w
+// 				throw new Error('价格太低')
+// 			} else {
+// 				target[key] = val
+// 				return true
+// 			}
+// 		}
+// 	}
+// })
+
+// console.log(agent.name)
+// console.log(agent.age)
+// console.log(agent.phone)
+// console.log(agent.price)
+
+// agent.customPrice = 900000
+
+
+// 主题,保存状态,状态变化之后触发所有观察者对象
+class Subject {
+	constructor() {
+		this.state = 0
+		this.observers = []
+	}
+
+	getState() {
+		return this.state
+	}
+
+	setState(state) {
+		this.state = state
+		this.notifyAllObservers()
+	}
+
+	notifyAllObservers() {
+		this.observers.forEach(observer => {
+			observer.update()
+		})
+	}
+
+	attach(observer) {
+		this.observers.push(observer)
+	}
 }
 
-// 经纪人
-let agent = new Proxy(star, {
-	get(target, key) {
-		if(key === 'phone') {
-			// 返回经纪人自己的电话
-			return 'agent: 16899997777'
-		}
-
-		// 明星不报价, 经纪人报价
-		if(key === 'price') {
-			return 120000
-		}
-
-		return target[key]
-	},
-	set(target, key, val) {
-		if(key === 'customPrice') {
-			if( val < 10000) {
-				// 最低 10w
-				throw new Error('价格太低')
-			} else {
-				target[key] = val
-				return true
-			}
-		}
+// 观察者
+class Observer {
+	constructor(name, subject) {
+		this.name = name
+		this.subject = subject
+		this.subject.attach(this)
 	}
-})
 
-console.log(agent.name)
-console.log(agent.age)
-console.log(agent.phone)
-console.log(agent.price)
+	update() {
+		console.log(`${this.name} update, state: ${this.subject.state}`)
+	}
+}
 
-agent.customPrice = 900000
+// 测试
+let s = new Subject()
+let o1 = new Observer('o1', s)
+let o2 = new Observer('o2', s)
+let o3 = new Observer('o3', s)
+
+s.setState(1)
+s.setState(2)
+s.setState(3)
